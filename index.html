@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECPIXEL - Diagnóstico Inteligente para seu Computador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#inicio" class="logo">
+        <span class="logo-tec">TEC</span><span class="logo-pixel">PIXEL</span>
+      </a>
+      <nav class="nav">
+        <a href="#inicio" class="nav-link">Início</a>
+        <a href="#diagnostico" class="nav-link">Diagnóstico</a>
+        <a href="#quem-somos" class="nav-link">Quem Somos</a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="#inicio" class="nav-link">Início</a>
+      <a href="#diagnostico" class="nav-link">Diagnóstico</a>
+      <a href="#quem-somos" class="nav-link">Quem Somos</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio">
+    <div class="container hero-content">
+      <div class="hero-badge">Diagnóstico gratuito e educativo</div>
+      <h1>Descubra o problema do seu<br><span class="text-blue">computador</span> em minutos</h1>
+      <p class="hero-subtitle">Responda algumas perguntas simples e receba um diagnóstico detalhado com soluções passo a passo. Aprenda enquanto resolve.</p>
+      <a href="#diagnostico" class="btn btn-primary btn-lg">Iniciar Diagnóstico</a>
+    </div>
+    <div class="hero-decoration">
+      <div class="hero-circle hero-circle-1"></div>
+      <div class="hero-circle hero-circle-2"></div>
+      <div class="hero-circle hero-circle-3"></div>
+    </div>
+  </section>
+
+  <!-- Diagnóstico -->
+  <section class="section section-gray" id="diagnostico">
+    <div class="container">
+      <div class="section-header">
+        <h2>Diagnóstico Interativo</h2>
+        <p>Siga o passo a passo abaixo para identificar e resolver o problema do seu computador.</p>
+      </div>
+
+      <div class="diagnostic-wrapper">
+        <!-- Progress bar -->
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Etapa 1 de 3</div>
+
+        <!-- Diagnostic content area (dynamic steps) -->
+        <div class="diagnostic-card" id="diagnosticCard">
+          <!-- Dynamic question step -->
+          <div class="diagnostic-step" id="step-question">
+            <div class="step-badge" id="stepBadge"></div>
+            <h3 id="stepQuestion"></h3>
+            <p class="step-description" id="stepDescription"></p>
+            <div id="stepOptionsContainer"></div>
+            <button class="btn btn-ghost btn-back hidden" id="backBtn">← Voltar</button>
+          </div>
+
+          <!-- Result -->
+          <div class="diagnostic-step hidden" id="step-result">
+            <div class="result-header">
+              <span class="result-icon">✅</span>
+              <h3>Diagnóstico Concluído</h3>
+            </div>
+
+            <div class="result-diagnosis">
+              <h4>Problema Identificado</h4>
+              <p id="resultDiagnosis"></p>
+            </div>
+
+            <div class="result-explanation">
+              <h4>Por que isso acontece?</h4>
+              <p id="resultExplanation"></p>
+            </div>
+
+            <div class="result-solution">
+              <h4>Solução Passo a Passo</h4>
+              <ol id="resultSteps" class="solution-steps"></ol>
+            </div>
+
+            <div class="result-video">
+              <h4>Vídeo Tutorial</h4>
+              <div class="video-container" id="resultVideo"></div>
+            </div>
+
+            <div class="result-tip">
+              <h4>💡 Dica de Prevenção</h4>
+              <p id="resultTip"></p>
+            </div>
+
+            <button class="btn btn-primary" id="restartDiagnostic">Fazer Novo Diagnóstico</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quem Somos -->
+  <section class="section" id="quem-somos">
+    <div class="container">
+      <div class="section-header">
+        <h2>Quem Somos</h2>
+        <p>Conhe&ccedil;a a equipe por tr&aacute;s do projeto TECPIXEL.</p>
+      </div>
+
+      <div class="about-text">
+        <p>O <strong>TECPIXEL</strong> &eacute; um projeto acad&ecirc;mico desenvolvido por estudantes de Engenharia da Computa&ccedil;&atilde;o, com o objetivo de ajudar comunidades e pessoas em situa&ccedil;&otilde;es de urg&ecirc;ncia na resolu&ccedil;&atilde;o de problemas voltados a hardware de computador.</p>
+        <p>Acreditamos que o conhecimento t&eacute;cnico deve ser acess&iacute;vel a todos. Por isso, nossa miss&atilde;o &eacute; disseminar o conhecimento da &aacute;rea de Engenharia da Computa&ccedil;&atilde;o de forma simples, pr&aacute;tica e gratuita, capacitando as pessoas a entenderem e resolverem os problemas dos seus pr&oacute;prios equipamentos.</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Arthur Tintino</h4>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Kaua Galvao</h4>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Samuel Costa</h4>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Luiz Francisco</h4>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Ana Laura Acioly</h4>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#E5E7EB"/>
+              <circle cx="60" cy="45" r="20" fill="#9CA3AF"/>
+              <ellipse cx="60" cy="95" rx="35" ry="25" fill="#9CA3AF"/>
+            </svg>
+          </div>
+          <h4>Fabio Assis</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <span class="logo-tec">TEC</span><span class="logo-pixel">PIXEL</span>
+      </div>
+      <p class="footer-text">Diagnóstico inteligente e educativo para seu computador.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/projeto.tecpixel" target="_blank" rel="noopener" class="footer-instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          @projeto.tecpixel
+        </a>
+      </div>
+      <p class="footer-copy">&copy; 2026 TECPIXEL. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Fixed Contact Button -->
+  <button class="contact-fab" id="contactFab" aria-label="Contato">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span class="fab-label">Dúvidas</span>
+  </button>
+
+  <!-- Contact Panel -->
+  <div class="contact-panel hidden" id="contactPanel">
+    <div class="contact-panel-header">
+      <h4>Dúvidas Frequentes</h4>
+      <button class="contact-close" id="contactClose">&times;</button>
+    </div>
+    <div class="contact-panel-body" id="contactBody">
+      <div class="faq-list" id="faqList">
+        <button class="faq-btn" data-faq="0">O diagnóstico é confiável?</button>
+        <button class="faq-btn" data-faq="1">Preciso pagar algo?</button>
+        <button class="faq-btn" data-faq="2">Posso usar no celular?</button>
+        <button class="faq-btn" data-faq="3">Meu problema não está listado</button>
+        <button class="faq-btn" data-faq="4">Como entro em contato?</button>
+      </div>
+      <div class="faq-answer hidden" id="faqAnswer">
+        <p id="faqAnswerText"></p>
+        <button class="btn btn-ghost btn-sm" id="faqBack">← Voltar às perguntas</button>
+      </div>
+      <div class="contact-instagram">
+        <p>Ainda tem dúvidas? Fale conosco!</p>
+        <a href="https://instagram.com/projeto.tecpixel" target="_blank" rel="noopener" class="instagram-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          @projeto.tecpixel
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
