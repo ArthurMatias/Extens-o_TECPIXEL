@@ -1450,6 +1450,13 @@ faqBack.addEventListener('click', () => {
   faqList.classList.remove('hidden');
 });
 
+// LGPD modal
+const lgpdModal = document.getElementById('lgpdModal');
+document.getElementById('lgpdBtn').addEventListener('click', () => lgpdModal.classList.remove('hidden'));
+document.getElementById('lgpdModalClose').addEventListener('click', () => lgpdModal.classList.add('hidden'));
+lgpdModal.addEventListener('click', (e) => { if (e.target === lgpdModal) lgpdModal.classList.add('hidden'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lgpdModal.classList.add('hidden'); });
+
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', (e) => {
