@@ -1,0 +1,40 @@
+{
+  "name": "tecpixel",
+  "version": "1.0.0",
+  "description": "Ferramenta educacional de diagnóstico de hardware/software",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint:js": "eslint src --ext .ts,.tsx",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "test:lgpd": "node tests/lgpd/compliance.js",
+    "test:e2e": "playwright test",
+    "lhci": "lhci autorun"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.9.0",
+    "@lhci/cli": "^0.14.0",
+    "@playwright/test": "^1.45.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "stylelint": "^16.6.0",
+    "stylelint-config-standard": "^36.0.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4"
+  }
+}

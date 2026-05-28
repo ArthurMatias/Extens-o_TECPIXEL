@@ -341,7 +341,7 @@ body {
 
 .progress-text {
   font-size: 0.8rem;
-  color: var(--gray-400);
+  color: var(--gray-600);
   text-align: right;
   margin-bottom: 24px;
 }
@@ -729,7 +729,7 @@ body {
 
 .footer-copy {
   font-size: 0.8rem;
-  color: var(--gray-500);
+  color: var(--gray-400);
 }
 
 /* ===== Contact FAB & Panel ===== */
