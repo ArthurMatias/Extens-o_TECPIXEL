@@ -1,0 +1,181 @@
+name: CI — Qualidade, Segurança & Acessibilidade
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Cancela execuções duplicadas no mesmo PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+
+  # ── 1. Lint JavaScript/TypeScript ───────────────────────────────────────────
+  lint-js:
+    name: 📜  Lint TS/TSX (ESLint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run lint:js
+
+  # ── 2. Lint CSS ─────────────────────────────────────────────────────────────
+  lint-css:
+    name: 🎨  Lint CSS (Stylelint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run lint:css
+
+  # ── 3. Type Checking ────────────────────────────────────────────────────────
+  typecheck:
+    name: 🔎  Type Check (tsc)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run typecheck
+
+  # ── 4. Build de produção ────────────────────────────────────────────────────
+  build:
+    name: 🏗️  Build (Vite)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run build
+      - name: Upload do artefato de build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.run_id }}
+          path: dist/
+          retention-days: 7
+
+  # ── 5. Conformidade LGPD ────────────────────────────────────────────────────
+  lgpd-compliance:
+    name: 🔒  LGPD Compliance (Lei 13.709/2018)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run test:lgpd
+
+  # ── 6. Auditoria de segurança ───────────────────────────────────────────────
+  security-audit:
+    name: 🛡️  Auditoria de Segurança (npm audit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm audit --audit-level=moderate
+
+  # ── 7. Testes E2E e Acessibilidade ─────────────────────────────────────────
+  e2e-tests:
+    name: 🎭  E2E & Acessibilidade (Playwright + axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - name: Instalar navegadores Playwright
+        run: npx playwright install --with-deps chromium firefox
+      - name: Executar testes E2E
+        run: npm run test:e2e
+        env:
+          CI: true
+      - name: Upload do relatório Playwright
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: playwright-report/
+          retention-days: 14
+
+  # ── 8. Lighthouse CI ────────────────────────────────────────────────────────
+  lighthouse:
+    name: 🚦  Lighthouse CI (Performance, Acessibilidade, SEO)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - name: Build de produção (necessário para o preview)
+        run: npm run build
+      - name: Executar Lighthouse CI
+        run: npm run lhci
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  # ── Gate final ──────────────────────────────────────────────────────────────
+  all-checks:
+    name: ✅  Todos os Checks Passaram
+    needs:
+      - lint-js
+      - lint-css
+      - typecheck
+      - build
+      - lgpd-compliance
+      - security-audit
+      - e2e-tests
+      - lighthouse
+    runs-on: ubuntu-latest
+    if: always()
+    timeout-minutes: 2
+    steps:
+      - name: Avaliar resultado de todos os jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ',') }}
+        run: |
+          echo "Resultados dos jobs: $RESULTS"
+          if [[ "$RESULTS" == *failure* ]] || [[ "$RESULTS" == *cancelled* ]]; then
+            echo ""
+            echo "❌  Um ou mais checks falharam. Revise os logs acima antes de fazer merge."
+            exit 1
+          fi
+          echo ""
+          echo "✅  Todos os checks passaram. PR pronto para review."
