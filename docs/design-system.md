@@ -20,7 +20,7 @@ O objetivo é manter coerência visual, acessibilidade WCAG 2.1 AA e conformidad
 
 ## 2. Tokens
 
-Todos os tokens vivem como variáveis CSS no `:root` de [`src/index.css`](../src/index.css). **Sempre referencie pela variável**, nunca hex inline em componentes de UI (a única exceção é pixel art representando hardware real — ver §6).
+Todos os tokens vivem como variáveis CSS no `:root` de [`src/index.css`](../src/index.css). **Sempre referencie pela variável**, nunca hex inline em componentes de UI (a única exceção é pixel art representando hardware real — ver §5.2).
 
 ### 2.1 Cores
 
@@ -235,11 +235,30 @@ Detalhes completos em [`.claude/skills/lgpd.md`](../.claude/skills/lgpd.md). O j
 
 ---
 
+## 9b. Roteamento e páginas
+
+O projeto é uma SPA com `react-router-dom` (`BrowserRouter`).
+
+- **Componentes de rota** (uma tela inteira) ficam em `src/pages/` — ex.: `HomePage.tsx`, `MontarPCPage.tsx`.
+- **Componentes reutilizáveis** ficam em `src/components/`.
+- O shell compartilhado (Header, Footer, FAB de contato, modal LGPD) vive no `App.tsx` e envolve o `<Routes>`, aparecendo em todas as páginas.
+- Links de navegação para outra rota usam `<Link to="/rota">`. Links para uma seção da home usam âncora `/#id` com scroll suave (e, vindo de outra rota, navegam para `/` com `state.scrollTo`).
+- Toda rota nova deve ser adicionada ao `<Routes>` no `App.tsx` e (se for destino principal) ao `Header`.
+
+### Drag-and-drop
+
+Para interações de arrastar (ex.: o game), use `@dnd-kit/core`:
+- Sensores: `PointerSensor` (`activationConstraint.distance: 8`) + `TouchSensor` (`delay: 150, tolerance: 8`). `touch-action: none` **apenas** na peça arrastável, nunca no container.
+- `collisionDetection={closestCenter}` para alvos tolerantes (crianças).
+- `DragOverlay` para o preview (snap-back automático); `dropAnimation={null}` sob `prefers-reduced-motion`.
+- **Obrigatório (WCAG 2.5.7)**: oferecer alternativa por ponteiro único/teclado — clicar para selecionar a peça → clicar no encaixe. O arraste é melhoria, não o único caminho.
+- Mensagens de acerto/erro em região `aria-live`. Devolver o foco ao encaixe preenchido após soltar.
+
 ## 10. Como criar uma nova seção/feature
 
 Checklist obrigatório:
 
-- [ ] Criou componente em `src/components/` com PascalCase (ex.: `MinhaFeature.tsx`)?
+- [ ] Componente de tela em `src/pages/` (rota) ou reutilizável em `src/components/`, PascalCase?
 - [ ] Tipou tudo (`interface Props`, dados em `src/data/*.ts`)?
 - [ ] Usou variáveis CSS do design system — nada hex inline em UI?
 - [ ] Reaproveitou classes existentes (`.section`, `.container`, `.btn`, `.card`…)?

@@ -49,26 +49,38 @@ A skill completa está em `.claude/skills/lgpd.md`. Consulte-a sempre antes de i
 ```
 index.html                  — Shell do Vite (div#root + script para main.tsx)
 src/
-  main.tsx                  — Entrypoint React
-  App.tsx                   — Composição da página + estado do modal LGPD
+  main.tsx                  — Entrypoint React (BrowserRouter)
+  App.tsx                   — Shell: Header + Routes + Footer + modal LGPD + FAB
   index.css                 — Estilos e layout responsivo
   types.ts                  — Tipos do diagnóstico (QuestionNode, ResultNode, DiagnosticNode)
   data/
     diagnosticTree.ts       — Árvore de diagnóstico (dados)
     faq.ts                  — Respostas do FAQ (dados)
+    computerParts.ts        — Peças do game (CPU, RAM, GPU, SSD, fonte, cooler)
+  pages/                    — Componentes de rota (react-router-dom)
+    HomePage.tsx            — Rota "/": Hero + Diagnóstico + Quem Somos
+    MontarPCPage.tsx        — Rota "/montar-pc": game drag-and-drop (@dnd-kit)
   components/
-    Header.tsx              — Cabeçalho, navegação, menu mobile, scroll spy
+    Header.tsx              — Cabeçalho, navegação (rotas + âncoras), menu mobile, scroll spy
     Hero.tsx                — Seção inicial
     Diagnostic.tsx          — Diagnóstico interativo (pergunta → resultado)
     QuemSomos.tsx           — Equipe
     Footer.tsx              — Rodapé + botão do aviso de privacidade
     LgpdModal.tsx           — Modal do Aviso de Privacidade (LGPD)
     ContactWidget.tsx       — Botão flutuante + painel de FAQ/contato
+    MotherboardSVG.tsx      — Placa-mãe decorativa em pixel art (fundo do game)
+    PixelArt.tsx            — Ícones de hardware em pixel art (CPU, RAM, …)
     InstagramIcon.tsx       — Ícone SVG reutilizável
 tests/
-  e2e/                      — Testes Playwright (smoke, diagnóstico, LGPD, acessibilidade)
+  e2e/                      — Testes Playwright (smoke, diagnóstico, game, navegação, LGPD, a11y)
   lgpd/compliance.js        — Checagem estática de LGPD
 ```
+
+### Roteamento
+SPA com `react-router-dom` (`BrowserRouter`). Rotas: `/` (HomePage) e `/montar-pc` (game). Header/Footer/FAB/modal LGPD são o shell compartilhado entre as rotas. Páginas (componentes de rota) ficam em `src/pages/`; componentes reutilizáveis em `src/components/`.
+
+### Drag-and-drop (game)
+O game usa `@dnd-kit/core` com `PointerSensor` + `TouchSensor` e `collisionDetection={closestCenter}` (alvos tolerantes para crianças). **Sempre** ofereça a alternativa por ponteiro único/teclado (clicar para selecionar → clicar no encaixe) ao lado do arraste — exigência WCAG 2.5.7.
 
 ## Convenções de código
 - **TypeScript strict**: tipar dados e props; evitar `any`

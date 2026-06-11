@@ -49,7 +49,16 @@ npm run build      # gera a pasta dist/
 npm run preview    # serve o build em http://localhost:8080
 ```
 
-A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de sites estáticos (GitHub Pages, Netlify, Vercel, etc.).
+A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de sites estáticos.
+
+> **Roteamento (importante para o deploy).** O app é uma SPA com rotas de cliente (`/` e `/montar-pc`) usando `BrowserRouter`. Hosts com *fallback SPA* automático — **Netlify, Vercel, Cloudflare Pages** e o próprio `npm run preview` — funcionam sem configuração: qualquer rota cai no `index.html`.
+>
+> Já o **GitHub Pages** é um servidor de arquivos puro, sem fallback: acessar/recarregar `/montar-pc` direto retorna 404. Para publicar no GitHub Pages é preciso, além do build:
+> 1. definir `base: '/<nome-do-repo>/'` em `vite.config.ts` (project pages ficam em subcaminho);
+> 2. passar `basename={import.meta.env.BASE_URL}` ao `BrowserRouter`;
+> 3. adicionar um `public/404.html` que reencaminha para o `index.html` (truque SPA do Pages) e um `public/.nojekyll`.
+>
+> Como alternativa mais simples para hosts estáticos puros, troque `BrowserRouter` por `HashRouter` (URLs passam a usar `#/`).
 
 ---
 
