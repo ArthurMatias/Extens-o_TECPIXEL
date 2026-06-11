@@ -74,9 +74,15 @@ tests/
 - **TypeScript strict**: tipar dados e props; evitar `any`
 - **Renderização segura**: o JSX escapa texto por padrão — prefira `{valor}`. NUNCA use `dangerouslySetInnerHTML` com dados do usuário
 - Links externos: sempre `target="_blank" rel="noopener noreferrer"`
-- Dados (árvore de diagnóstico, FAQ) ficam em `src/data/`, separados dos componentes
+- Dados (árvore de diagnóstico, FAQ, peças) ficam em `src/data/`, separados dos componentes
 - Reaproveitar IDs/classes do CSS existente ao criar/alterar componentes
 - Comentários somente quando o "porquê" não é óbvio pelo código
+
+## Design System — OBRIGATÓRIO
+
+**Toda página, função ou seção visual nova deste projeto deve seguir o design system documentado em [`docs/design-system.md`](docs/design-system.md).** Não é guia opcional — é a referência autoritativa de tokens, componentes, padrões de layout, iconografia (incluindo o estilo pixel-art para hardware) e tom de linguagem (adulto x infantil).
+
+Antes de criar qualquer feature nova, consulte o **checklist final** do design system (seção 10). Se alguma regra atrapalhar, justifique no PR — não desabilite silenciosamente.
 
 ## CI/CD
 Pipeline em `.github/workflows/ci.yml` roda em todo PR e push para `main`:
