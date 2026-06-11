@@ -17,7 +17,7 @@ test.describe('Diagnóstico — fluxo interativo', () => {
   });
 
   test('barra de progresso é exibida', async ({ page }) => {
-    await expect(page.locator('.progress-bar')).toBeVisible();
+    await expect(page.locator('#diagnostico .progress-bar')).toBeVisible();
     await expect(page.locator('#progressText')).toContainText('Etapa');
   });
 
