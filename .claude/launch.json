@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "tecpixel",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", ".", "-p", "8080", "-c-1"],
-      "port": 8080
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 8080,
+      "autoPort": false
     }
   ]
 }

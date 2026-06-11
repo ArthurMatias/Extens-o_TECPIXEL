@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const NAV_LINKS = [
-  { href: '#inicio', label: 'Início' },
-  { href: '#diagnostico', label: 'Diagnóstico' },
-  { href: '#montar-pc', label: 'Montar PC' },
-  { href: '#quem-somos', label: 'Quem Somos' },
+const SECTION_LINKS = [
+  { id: 'inicio', label: 'Início' },
+  { id: 'diagnostico', label: 'Diagnóstico' },
+  { id: 'quem-somos', label: 'Quem Somos' },
 ];
 
 export default function Header() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const onHome = location.pathname === '/';
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState('');
@@ -15,6 +19,11 @@ export default function Header() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
+
+      if (!onHome) {
+        setActiveId('');
+        return;
+      }
 
       const scrollY = window.scrollY + 100;
       let current = '';
@@ -30,25 +39,44 @@ export default function Header() {
     window.addEventListener('scroll', onScroll);
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [onHome]);
+
+  const goToSection = (e: React.MouseEvent, id: string) => {
+    // Deixa o navegador tratar ctrl/cmd/shift/alt+clique (abrir em nova aba/janela).
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    setMenuOpen(false);
+    if (onHome) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/', { state: { scrollTo: id } });
+    }
+  };
 
   return (
     <header className={scrolled ? 'header scrolled' : 'header'} id="header">
       <div className="container header-inner">
-        <a href="#inicio" className="logo">
+        <Link to="/" className="logo">
           <span className="logo-tec">TEC</span><span className="logo-pixel">PIXEL</span>
-        </a>
+        </Link>
 
         <nav className="nav">
-          {NAV_LINKS.map((link) => (
+          {SECTION_LINKS.map((link) => (
             <a
-              key={link.href}
-              href={link.href}
-              className={activeId === link.href.slice(1) ? 'nav-link active' : 'nav-link'}
+              key={link.id}
+              href={`/#${link.id}`}
+              className={onHome && activeId === link.id ? 'nav-link active' : 'nav-link'}
+              onClick={(e) => goToSection(e, link.id)}
             >
               {link.label}
             </a>
           ))}
+          <Link
+            to="/montar-pc"
+            className={location.pathname === '/montar-pc' ? 'nav-link active' : 'nav-link'}
+          >
+            Montar PC
+          </Link>
         </nav>
 
         <button
@@ -63,11 +91,19 @@ export default function Header() {
       </div>
 
       <nav className={menuOpen ? 'mobile-nav open' : 'mobile-nav'} id="mobileNav">
-        {NAV_LINKS.map((link) => (
-          <a key={link.href} href={link.href} className="nav-link" onClick={() => setMenuOpen(false)}>
+        {SECTION_LINKS.map((link) => (
+          <a
+            key={link.id}
+            href={`/#${link.id}`}
+            className="nav-link"
+            onClick={(e) => goToSection(e, link.id)}
+          >
             {link.label}
           </a>
         ))}
+        <Link to="/montar-pc" className="nav-link" onClick={() => setMenuOpen(false)}>
+          Montar PC
+        </Link>
       </nav>
     </header>
   );

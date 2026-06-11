@@ -1,12 +1,11 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import Diagnostic from './components/Diagnostic';
-import MontarPC from './components/MontarPC';
-import QuemSomos from './components/QuemSomos';
 import Footer from './components/Footer';
 import LgpdModal from './components/LgpdModal';
 import ContactWidget from './components/ContactWidget';
+import HomePage from './pages/HomePage';
+import MontarPCPage from './pages/MontarPCPage';
 
 export default function App() {
   const [lgpdOpen, setLgpdOpen] = useState(false);
@@ -14,10 +13,12 @@ export default function App() {
   return (
     <>
       <Header />
-      <Hero />
-      <Diagnostic />
-      <MontarPC />
-      <QuemSomos />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/montar-pc" element={<MontarPCPage />} />
+        </Routes>
+      </main>
       <Footer onOpenLgpd={() => setLgpdOpen(true)} />
       <LgpdModal isOpen={lgpdOpen} onClose={() => setLgpdOpen(false)} />
       <ContactWidget />

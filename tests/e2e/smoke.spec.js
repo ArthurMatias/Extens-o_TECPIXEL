@@ -52,6 +52,7 @@ test.describe('Smoke — estrutura da página', () => {
     const nav = page.locator('.nav');
     await expect(nav.getByRole('link', { name: 'Início' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Diagnóstico' })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Montar PC' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Quem Somos' })).toBeVisible();
   });
 
