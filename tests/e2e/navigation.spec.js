@@ -12,21 +12,21 @@ test.describe('Navegação entre páginas', () => {
   });
 
   test('logo volta para a home a partir do jogo', async ({ page }) => {
-    await page.goto('/montar-pc');
+    await page.goto('/#/montar-pc');
     await page.locator('.logo').click();
-    await expect(page).toHaveURL(/\/$/);
+    await expect(page).toHaveURL(/#\/$/);
     await expect(page.locator('#inicio')).toBeVisible();
   });
 
   test('link de seção a partir do jogo volta para a home e rola até a seção', async ({ page }) => {
-    await page.goto('/montar-pc');
+    await page.goto('/#/montar-pc');
     await page.locator('.nav').getByRole('link', { name: 'Diagnóstico' }).click();
-    await expect(page).toHaveURL(/\/$/);
+    await expect(page).toHaveURL(/#\/$/);
     await expect(page.locator('#diagnostico')).toBeVisible();
   });
 
   test('header e rodapé aparecem em ambas as páginas', async ({ page }) => {
-    await page.goto('/montar-pc');
+    await page.goto('/#/montar-pc');
     await expect(page.locator('#header')).toBeVisible();
     await expect(page.locator('footer')).toBeVisible();
     await expect(page.locator('#lgpdBtn')).toBeVisible();

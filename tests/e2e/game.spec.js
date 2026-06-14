@@ -38,7 +38,7 @@ test.describe('Game — Monte seu Computador (montagem realista)', () => {
   test.use({ viewport: { width: 1280, height: 1200 } });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/montar-pc');
+    await page.goto('/#/montar-pc');
     await expect(page.locator('#montar-pc')).toBeVisible();
     await page.locator('.game-board').scrollIntoViewIfNeeded();
   });

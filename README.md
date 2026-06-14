@@ -52,16 +52,9 @@ npm run build      # gera a pasta dist/
 npm run preview    # serve o build em http://localhost:8080
 ```
 
-A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de sites estáticos.
+A pasta `dist/` é estática e **funciona em qualquer hospedagem de sites estáticos sem nenhuma configuração extra** — raiz de domínio, subcaminho (ex.: GitHub Pages em `/<repo>/`), subpasta ou até abrindo o `index.html` localmente.
 
-> **Roteamento (importante para o deploy).** O app é uma SPA com rotas de cliente (`/` e `/montar-pc`) usando `BrowserRouter`. Hosts com *fallback SPA* automático — **Netlify, Vercel, Cloudflare Pages** e o próprio `npm run preview` — funcionam sem configuração: qualquer rota cai no `index.html`.
->
-> Já o **GitHub Pages** é um servidor de arquivos puro, sem fallback: acessar/recarregar `/montar-pc` direto retorna 404. Para publicar no GitHub Pages é preciso, além do build:
-> 1. definir `base: '/<nome-do-repo>/'` em `vite.config.ts` (project pages ficam em subcaminho);
-> 2. passar `basename={import.meta.env.BASE_URL}` ao `BrowserRouter`;
-> 3. adicionar um `public/404.html` que reencaminha para o `index.html` (truque SPA do Pages) e um `public/.nojekyll`.
->
-> Como alternativa mais simples para hosts estáticos puros, troque `BrowserRouter` por `HashRouter` (URLs passam a usar `#/`).
+> **Por que funciona em todo lugar.** O build usa `base: './'` (assets com caminho **relativo**, evitando 404 que deixa a tela branca em subcaminhos) e `HashRouter` (rotas no `#`, ex.: `…/#/montar-pc`), que dispensa fallback de SPA do servidor — recarregar ou compartilhar um link de rota funciona em qualquer host estático, inclusive GitHub Pages.
 
 ---
 
@@ -74,7 +67,7 @@ A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de site
 ├── tsconfig.json               # Configuração do TypeScript
 ├── index.html                  # Shell do Vite (div#root + script para main.tsx)
 ├── src/
-│   ├── main.tsx                # Entrypoint React (BrowserRouter)
+│   ├── main.tsx                # Entrypoint React (HashRouter)
 │   ├── App.tsx                 # Shell: Header + Routes + Footer + modal LGPD + FAB
 │   ├── index.css               # Estilos e layout responsivo
 │   ├── types.ts                # Tipos do diagnóstico (QuestionNode, ResultNode…)

@@ -237,12 +237,12 @@ Detalhes completos em [`.claude/skills/lgpd.md`](../.claude/skills/lgpd.md). O j
 
 ## 9b. Roteamento e páginas
 
-O projeto é uma SPA com `react-router-dom` (`BrowserRouter`).
+O projeto é uma SPA com `react-router-dom` usando **`HashRouter`** (rotas no `#`, ex.: `…/#/montar-pc`) e **`base: './'`** no `vite.config.ts`.
 
-- **Componentes de rota** (uma tela inteira) ficam em `src/pages/` — ex.: `HomePage.tsx`, `MontarPCPage.tsx`.
-- **Componentes reutilizáveis** ficam em `src/components/`.
+- **Por quê:** o build precisa rodar em qualquer hospedagem estática (raiz de domínio, subcaminho como GitHub Pages `/<repo>/`, subpasta, `file://`) sem fallback de SPA. Caminho de asset absoluto (`/assets/...`) dá 404 em subcaminho → tela branca; `HashRouter` evita 404 de rota no reload. Não reverter para `BrowserRouter` sem reintroduzir `base`/`basename`/`404.html`.
+- **Componentes de rota** (uma tela inteira) ficam em `src/pages/` — ex.: `HomePage.tsx`, `MontarPCPage.tsx`. **Componentes reutilizáveis** ficam em `src/components/`.
 - O shell compartilhado (Header, Footer, FAB de contato, modal LGPD) vive no `App.tsx` e envolve o `<Routes>`, aparecendo em todas as páginas.
-- Links de navegação para outra rota usam `<Link to="/rota">`. Links para uma seção da home usam âncora `/#id` com scroll suave (e, vindo de outra rota, navegam para `/` com `state.scrollTo`).
+- Links de navegação para outra rota usam `<Link to="/rota">`. **Rolagem para seções NÃO usa âncora de URL** (`href="#id"`) — o `#` pertence ao roteador; role via JS (`document.getElementById(id)?.scrollIntoView()`), e vindo de outra rota navegue para `/` com `state.scrollTo` (a `HomePage` rola no mount).
 - Toda rota nova deve ser adicionada ao `<Routes>` no `App.tsx` e (se for destino principal) ao `Header`.
 
 ### Drag-and-drop

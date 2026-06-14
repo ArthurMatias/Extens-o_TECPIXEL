@@ -49,7 +49,7 @@ A skill completa está em `.claude/skills/lgpd.md`. Consulte-a sempre antes de i
 ```
 index.html                  — Shell do Vite (div#root + script para main.tsx)
 src/
-  main.tsx                  — Entrypoint React (BrowserRouter)
+  main.tsx                  — Entrypoint React (HashRouter)
   App.tsx                   — Shell: Header + Routes + Footer + modal LGPD + FAB
   index.css                 — Estilos e layout responsivo
   types.ts                  — Tipos do diagnóstico (QuestionNode, ResultNode, DiagnosticNode)
@@ -77,7 +77,7 @@ tests/
 ```
 
 ### Roteamento
-SPA com `react-router-dom` (`BrowserRouter`). Rotas: `/` (HomePage) e `/montar-pc` (game). Header/Footer/FAB/modal LGPD são o shell compartilhado entre as rotas. Páginas (componentes de rota) ficam em `src/pages/`; componentes reutilizáveis em `src/components/`.
+SPA com `react-router-dom` (`HashRouter` — rotas no `#`, ex.: `…/#/montar-pc`). Rotas: `/` (HomePage) e `/montar-pc` (game). Header/Footer/FAB/modal LGPD são o shell compartilhado entre as rotas. Páginas (componentes de rota) ficam em `src/pages/`; componentes reutilizáveis em `src/components/`. **Por que HashRouter + `base: './'` (vite.config):** o build roda em qualquer host estático (raiz, subcaminho, GitHub Pages, file://) sem fallback de SPA — assets relativos evitam 404/tela-branca e o roteamento por `#` sobrevive a reload. **Consequência:** não use âncoras de URL (`href="#secao"`) para rolagem — o `#` é do roteador; role via JS (`scrollIntoView`).
 
 ### Drag-and-drop (game)
 O game usa `@dnd-kit/core` com `PointerSensor` + `TouchSensor` e `collisionDetection={pointerWithin}` (o encaixe segue a posição do ponteiro; soltar em área vazia não pune). A montagem é **sequenciada** como na vida real: trava do socket → CPU → trava → cooler; RAM/GPU/cabos são livres. **Sempre** ofereça a alternativa por ponteiro único/teclado (clicar para selecionar → clicar no encaixe) ao lado do arraste — exigência WCAG 2.5.7. **Atenção:** o dnd-kit mede droppables ignorando transforms CSS — posicione drop zones com `left/top` calculados, nunca com `translate(-50%,-50%)`.

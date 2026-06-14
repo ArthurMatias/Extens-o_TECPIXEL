@@ -64,7 +64,7 @@ export default function Header() {
           {SECTION_LINKS.map((link) => (
             <a
               key={link.id}
-              href={`/#${link.id}`}
+              href="#/"
               className={onHome && activeId === link.id ? 'nav-link active' : 'nav-link'}
               onClick={(e) => goToSection(e, link.id)}
             >
@@ -94,7 +94,7 @@ export default function Header() {
         {SECTION_LINKS.map((link) => (
           <a
             key={link.id}
-            href={`/#${link.id}`}
+            href="#/"
             className="nav-link"
             onClick={(e) => goToSection(e, link.id)}
           >
