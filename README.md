@@ -1,6 +1,9 @@
 # TECPIXEL
 
-Ferramenta educacional de **diagnóstico de hardware/software** para computadores. O usuário responde a um passo a passo de perguntas e recebe um diagnóstico com explicação, solução, vídeo tutorial e dica de prevenção.
+Ferramenta educacional sobre hardware/software de computadores, com duas experiências:
+
+- **Diagnóstico interativo** (`/`) — o usuário responde a um passo a passo de perguntas e recebe um diagnóstico com explicação, solução, vídeo tutorial e dica de prevenção.
+- **Monte seu Computador** (`/montar-pc`) — um game em **pixel art** onde se monta uma placa-mãe peça por peça, na ordem real (levantar a trava do socket → encaixar a CPU → fechar a trava → cooler → memórias → placa de vídeo → cabos da fonte), por arraste ou por clique. Cada peça é explicada de forma lúdica, voltada também a crianças.
 
 É uma **SPA (Single Page Application)** — roda inteiramente no navegador, **sem backend** e **sem coletar dados pessoais**. Interface em português (pt-BR).
 
@@ -69,25 +72,32 @@ A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de site
 ├── index.html                  # Shell do Vite (div#root + <script> para main.tsx)
 ├── vite.config.ts              # Configuração do Vite (porta 8080)
 ├── tsconfig.json               # Configuração do TypeScript
+├── index.html                  # Shell do Vite (div#root + script para main.tsx)
 ├── src/
-│   ├── main.tsx                # Entrypoint React (monta o App no #root)
-│   ├── App.tsx                 # Compõe a página e controla o modal LGPD
+│   ├── main.tsx                # Entrypoint React (BrowserRouter)
+│   ├── App.tsx                 # Shell: Header + Routes + Footer + modal LGPD + FAB
 │   ├── index.css               # Estilos e layout responsivo
 │   ├── types.ts                # Tipos do diagnóstico (QuestionNode, ResultNode…)
 │   ├── data/
 │   │   ├── diagnosticTree.ts   # Árvore de diagnóstico (dados das perguntas/resultados)
-│   │   └── faq.ts              # Respostas do FAQ
+│   │   ├── faq.ts              # Respostas do FAQ
+│   │   └── computerParts.ts    # Peças e textos do game (CPU, RAM, GPU, cooler, cabos…)
+│   ├── pages/                  # Componentes de rota (react-router-dom)
+│   │   ├── HomePage.tsx        # Rota "/": Hero + Diagnóstico + Quem Somos
+│   │   └── MontarPCPage.tsx    # Rota "/montar-pc": game drag-and-drop (@dnd-kit)
 │   └── components/
-│       ├── Header.tsx          # Cabeçalho, navegação, menu mobile, scroll spy
+│       ├── Header.tsx          # Cabeçalho, navegação (rotas + âncoras), menu mobile
 │       ├── Hero.tsx            # Seção inicial
 │       ├── Diagnostic.tsx      # Diagnóstico interativo (pergunta → resultado)
 │       ├── QuemSomos.tsx       # Equipe do projeto
 │       ├── Footer.tsx          # Rodapé + botão do Aviso de Privacidade
 │       ├── LgpdModal.tsx       # Modal do Aviso de Privacidade (LGPD)
 │       ├── ContactWidget.tsx   # Botão flutuante + painel de FAQ/contato
+│       ├── MotherboardSVG.tsx  # Placa-mãe decorativa em pixel art (fundo do game)
+│       ├── PixelArt.tsx        # Ícones de hardware em pixel art
 │       └── InstagramIcon.tsx   # Ícone SVG reutilizável
 ├── tests/
-│   ├── e2e/                    # Testes Playwright (smoke, diagnóstico, LGPD, acessibilidade)
+│   ├── e2e/                    # Playwright: smoke, diagnostic, game, navigation, lgpd, accessibility
 │   └── lgpd/compliance.js      # Checagem estática de conformidade LGPD
 ├── .github/workflows/ci.yml    # Pipeline de CI (roda em cada PR)
 ├── lighthouserc.json           # Metas do Lighthouse CI
@@ -98,6 +108,10 @@ A pasta `dist/` é estática e pode ser publicada em qualquer hospedagem de site
 ### Como o diagnóstico funciona
 
 A lógica é guiada por dados: `src/data/diagnosticTree.ts` é uma árvore onde cada nó é uma **pergunta** (tem `options`) ou um **resultado** (tem `diagnosis`). O componente `Diagnostic.tsx` percorre essa árvore conforme os cliques do usuário, mantendo um histórico para o botão "Voltar". Para adicionar/editar diagnósticos, basta alterar os dados em `src/data/` — sem mexer nos componentes.
+
+### Como o game funciona
+
+`src/pages/MontarPCPage.tsx` usa `@dnd-kit/core` para arrastar peças até encaixes sobre a placa-mãe (`MotherboardSVG`), com alternativa por clique (clicar na peça → "Encaixar aqui") para acessibilidade. A montagem é **sequenciada** (trava → CPU → trava → cooler; RAM/GPU/cabos livres) e o conteúdo de cada peça vem de `src/data/computerParts.ts` — editar lá adiciona/altera peças e explicações.
 
 ---
 

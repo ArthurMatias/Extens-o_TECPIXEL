@@ -249,10 +249,13 @@ O projeto é uma SPA com `react-router-dom` (`BrowserRouter`).
 
 Para interações de arrastar (ex.: o game), use `@dnd-kit/core`:
 - Sensores: `PointerSensor` (`activationConstraint.distance: 8`) + `TouchSensor` (`delay: 150, tolerance: 8`). `touch-action: none` **apenas** na peça arrastável, nunca no container.
-- `collisionDetection={closestCenter}` para alvos tolerantes (crianças).
+- `collisionDetection={pointerWithin}` — o encaixe segue o ponteiro; soltar fora de qualquer alvo é snap-back sem punição.
+- **Armadilha real**: o dnd-kit mede droppables com `ignoreTransform: true`. Drop zones posicionadas com `transform: translate(-50%,-50%)` têm o retângulo medido deslocado meia-largura/meia-altura do visual. Posicione com `left/top` calculados (centro − metade do tamanho) e reserve `transform` só para animações de feedback (`scale`), que não afetam a medição feita no início do arraste.
+- Dicas pulsantes em alvos clicáveis devem animar `box-shadow` (brilho), não `transform` — animação de geometria torna o elemento "instável" para testes e desloca o alvo de clique.
 - `DragOverlay` para o preview (snap-back automático); `dropAnimation={null}` sob `prefers-reduced-motion`.
 - **Obrigatório (WCAG 2.5.7)**: oferecer alternativa por ponteiro único/teclado — clicar para selecionar a peça → clicar no encaixe. O arraste é melhoria, não o único caminho.
 - Mensagens de acerto/erro em região `aria-live`. Devolver o foco ao encaixe preenchido após soltar.
+- Para fluxos com ordem real (ex.: trava → CPU → cooler), bloqueie pela mecânica com mensagens educativas — nunca esconda a peça nem puna a tentativa.
 
 ## 10. Como criar uma nova seção/feature
 
